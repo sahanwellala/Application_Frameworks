@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab_01</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    <!-- Ex_01 -->
+
+    /*
+    01) Create a function as a variable (function expression) that prints ‘Hello World’ to console
+    and another function which accepts a variable. The argument passed to the second
+    function should be executed as a function inside the body. Call the second function
+    passing the first function as the argument. Check the output.
+    */
+    var functionVariable = function () {
+        console.log("Hello World !");
+    }
+    function printHelloWorld(argument){
+        argument();
+    }
+
+    printHelloWorld(functionVariable);
+
+    <!-- Ex_02 -->
+    /*
+    02) Use curly brackets to create JSON like JavaScript object and add properties and functions
+    to the object.
+    */
+
+    var jasonObjects = {
+        name: "sahan",
+        age: 23,
+        University: "SLIIT"
+    };
+
+    console.log(jasonObjects)
+
+    <!-- Ex_03 -->
+
+    var vehicleName;
+    var printVehicleName = function () {
+        console.log(vehicleName);
+    }
+
+
+    var vehicle = new Object();
+    this.vehicleName = "Toyota";
+    this.getVehicleName = printVehicleName;
+    getVehicleName.call(this);
+    printVehicleName();
+
+    <!-- Ex_04 -->
+/*
+    04) Create a separate function using JavaScript closure which accepts the tax percentage and
+    returns a function which accepts the amount and returns the amount after adding tax
+    percentage. Try adding tax percentage to ‘this’ object and check if it works.
+*/
+
+   function calTax(tax) {
+       function taxAmount(amount) {
+           return amount+tax;
+       }
+       return taxAmount;
+   }
+   var amount = calTax(10);
+   console.log(amount(5));
+
+   <!-- Ex_05 -->
+    /*
+    05) Write a function to call GitHub API (https://api.github.com/users) and get users and
+    return the users to the caller
+    */
+
+    function Get(url) {
+        var Httpreq = new XMLHttpRequest();
+        Httpreq.open("GET", url, false);
+        Httpreq.send(null);
+        return Httpreq.responseText;
+    }
+
+    var json_obj = JSON.parse(Get("https://api.github.com/users"));
+    json_obj.forEach(element => {
+        console.log("ID : " + element.id + " Login : " + element.login);
+    });
+
+</script>
+</body>
+</html>
