@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AF Lab 02</title>
+
+    <script type="text/javascript">
+        var vehicleName = "Toyota";
+
+        function printVehicleNameOuter() {
+            console.log(this.vehicleName);
+        }
+
+        console.log(this);
+        printVehicleNameOuter();
+
+        var vehicle = {
+            vehicleName: 'Nissan',
+            printVehicleNameInner1: printVehicleNameOuter,
+            printVehicleNameInner2: function () {
+                return function () {
+                    console.log(this.vehicleName)
+                }
+            }
+        };
+
+        vehicle.printVehicleNameInner1();
+        var execute = vehicle.printVehicleNameInner2();
+        execute();
+        execute.call(vehicle);
+
+        var execute2 = vehicle.printVehicleNameInner2().bind(vehicle);
+        execute2();
+        //////////////////////////////////////////////////////////////
+        // Ex_o2
+
+        function taxCalculator(tax) {
+            var taxPercentage = tax;
+            return function (amount) {
+                return (amount * taxPercentage / 100);
+            }
+        }
+
+        var calculator = taxCalculator(10);
+        console.log(calculator(90));
+
+        //Ex_03
+        function fetchUsers() {
+            fetch('https://api.github.com/users').then(function (response) {
+                return response.json();
+            }).then(function (json) {
+                console.log(json);
+            });
+        }
+
+        fetchUsers();
+
+        function fetchUsers() {
+            return fetch('https://api.github.com/users').then(response => response.json());
+        }
+
+        fetchUsers().then(function (json) {
+            console.log(json);
+        });
+
+        //Ex_04
+
+        function Vehicle(type) {
+            Vehicle.vehicleCount++;
+            this.type = type;
+        }
+
+        Vehicle.vehicleCount = 0;
+        Vehicle.prototype.drive = function () {
+            console.log("Vehicle is driving !");
+        }
+        var vehicle1 = new Vehicle('Toyota');
+        console.log(Vehicle.vehicleCount);
+        var vehicle1 = new Vehicle('Audi');
+        console.log(Vehicle.vehicleCount);
+        Vehicle.prototype.drive();
+
+
+        function Car(type) {
+            Vehicle.call(this, type);
+        }
+
+        Car.prototype = Object.create(Vehicle.prototype);
+        Car.prototype.constructor = Car;
+        Car.prototype.balanceWheels = function () {
+            console.log('Wheels are balanced !');
+        };
+        var car = new Car('Nissan');
+        car.drive();
+        car.balanceWheels();
+        console.log(car.type, Vehicle.vehicleCount);
+
+        // Ex_05
+        let vehicleName5 = 'Toyota';
+        vehicleName5 = 'Nissan';
+        const COUNTRY = 'Japan';
+        console.log(vehicleName5);
+
+        function fetchUsers() {
+            return fetch('https://api.github.com/users').then
+            (response => response.json());
+        }
+
+        fetchUsers().then(json => {
+            console.log(json);
+        });
+
+        async function fetchUsersAsync() {
+            const response = await fetch('https://api.github.com/users');
+            const json = await response.json();
+            console.log(json);
+        }
+
+        fetchUsersAsync();
+
+
+        // Ex_08
+
+        class New_Vehicle {
+            constructor(type) {
+                New_Vehicle.VehicleCount++;
+                this.type = type;
+            }
+
+            drive() {
+                console.log('Vehicle is Driving - New Vehicle Class');
+            }
+
+        }
+
+        New_Vehicle.VehicleCount = 0;
+        const new_vehicle = new New_Vehicle('New_Toyota');
+        new_vehicle.drive();
+        console.log(New_Vehicle.VehicleCount);
+
+        class New_Car extends New_Vehicle {
+            constructor(type) {
+                super(type);
+            }
+
+            balancedWheels() {
+                console.log('Wheels are balanced - New Vehicle Class!');
+            }
+        }
+
+        const new_car = new New_Car('New_Nissan');
+        new_car.drive();
+        console.log(New_Vehicle.VehicleCount);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
